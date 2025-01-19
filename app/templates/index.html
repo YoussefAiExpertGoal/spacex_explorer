@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <section class="text-center">
+        <h1 class="text-4xl font-bold mb-4">Explore the Future of Space with SpaceX</h1>
+        <p class="text-xl text-gray-400">Discover missions, rockets, and the people making space exploration possible.</p>
+    </section>
+
+    {% if mission %}
+    <section class="bg-gray-800 rounded-lg p-6">
+        <h2 class="text-2xl font-bold mb-4">Latest Mission: {{ mission.name }}</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <p class="text-gray-400">Launch Date: {{ mission.date.strftime('%B %d, %Y') }}</p>
+                <p class="text-gray-400">Status: 
+                    <span class="{% if mission.success %}text-green-500{% else %}text-red-500{% endif %}">
+                        {{ "Success" if mission.success else "Failure" }}
+                    </span>
+                </p>
+                {% if mission.details %}
+                <p class="mt-4">{{ mission.details }}</p>
+                {% endif %}
+            </div>
+            {% if mission.links.get('patch', {}).get('large') %}
+            <div class="flex justify-center">
+                <img src="{{ mission.links.patch.large }}" alt="{{ mission.name }} patch" class="max-h-48">
+            </div>
+            {% endif %}
+        </div>
+    </section>
+    {% endif %}
+
+    {% if error %}
+    <div class="bg-red-600 text-white p-4 rounded">
+        <p>Error loading mission data: {{ error }}</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

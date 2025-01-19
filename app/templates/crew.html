@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Crew Members{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <h1 class="text-3xl font-bold">SpaceX Crew Members</h1>
+
+    {% if crew_members %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for crew in crew_members %}
+        <div class="bg-gray-800 rounded-lg overflow-hidden">
+            {% if crew.image %}
+            <img src="{{ crew.image }}" alt="{{ crew.name }}" class="w-full h-64 object-cover">
+            {% else %}
+            <div class="w-full h-64 bg-gray-700 flex items-center justify-center">
+                <span class="text-gray-500">No image available</span>
+            </div>
+            {% endif %}
+            
+            <div class="p-6">
+                <h2 class="text-xl font-bold mb-2">{{ crew.name }}</h2>
+                <div class="space-y-2">
+                    <p class="text-gray-400">Agency: {{ crew.agency }}</p>
+                    <p class="text-gray-400">Status: 
+                        <span class="{% if crew.status == 'active' %}text-green-500{% else %}text-yellow-500{% endif %}">
+                            {{ crew.status|title }}
+                        </span>
+                    </p>
+                    <p class="text-gray-400">Missions: {{ crew.launches|length }}</p>
+                    
+                    {% if crew.wikipedia %}
+                    <div class="mt-4">
+                        <a href="{{ crew.wikipedia }}" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="text-blue-400 hover:text-blue-300">
+                            Wikipedia Profile →
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if error %}
+    <div class="bg-red-600 text-white p-4 rounded">
+        <p>Error loading crew members: {{ error }}</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

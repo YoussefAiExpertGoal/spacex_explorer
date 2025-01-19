@@ -1,0 +1,4 @@
+mkdir -p app/models app/templates
+touch app/__init__.py app/routes.py app/models/__init__.py app/models/spacex_models.py
+touch app/templates/base.html app/templates/index.html app/templates/missions.html
+touch config.py run.py

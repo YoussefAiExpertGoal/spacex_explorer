@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Missions{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <h1 class="text-3xl font-bold">SpaceX Missions</h1>
+
+    {% if missions %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for mission in missions %}
+        <div class="bg-gray-800 rounded-lg p-6">
+            <h2 class="text-xl font-bold mb-2">{{ mission.name }}</h2>
+            <p class="text-gray-400">{{ mission.date.strftime('%B %d, %Y') }}</p>
+            <p class="{% if mission.success %}text-green-500{% else %}text-red-500{% endif %}">
+                {{ "Success" if mission.success else "Failure" }}
+            </p>
+            {% if mission.details %}
+            <p class="mt-4 text-sm">{{ mission.details[:200] }}...</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if error %}
+    <div class="bg-red-600 text-white p-4 rounded">
+        <p>Error loading missions: {{ error }}</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
